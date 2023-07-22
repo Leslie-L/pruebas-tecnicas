@@ -13,3 +13,12 @@
   src: url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&display=swap') format('truetype'); /* Adjust the path and format as needed */
   /* Add more src lines for different formats (e.g., woff, woff2) to support different browsers */
 }
+
+.writing-mode-vertical {
+  writing-mode: tb-rl;
+}
+
+
+
+
+

@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBookmark} from '@fortawesome/free-solid-svg-icons'
 
 function BookCard(bookInfo,save) {
-    const cover = bookInfo['book']['book'].cover
+    const cover = bookInfo['bookInfo']['book'].cover
    
     if(save){
        return(<article className="flex-shrink-0 w-52  mr-6 relative shadow-xl">
