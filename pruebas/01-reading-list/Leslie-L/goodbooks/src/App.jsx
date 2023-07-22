@@ -14,7 +14,7 @@ export default function App() {
   const [booksDisplay,setBooksDisplay]=useState([]);
   const [bookDate,setBookDate] = useState("");
   const [bookCategory, setBookCategory] = useState(10000);
-
+  const [favorites, setFavorites] = useState([]);
   useEffect(()=>  {
     const getBooks = async () =>{
       const response = await fetch('./books.json');
@@ -99,6 +99,22 @@ const updateBooks = (valActual,catActual,actYear)=>{
   setBooksDisplay(newBooks);
 }
   const cantidadDeLibros =booksDisplay.length;
+
+  const addFavorites = (newFav)=>{
+    
+    const listFavorites = [...favorites];
+    listFavorites.push(newFav)
+    setFavorites(listFavorites);
+    console.log("call add",newFav);
+  }
+  const getBook=(id)=>{
+    const book = books.find(item=>{
+      const temporal = item['book'];
+      const isnb = temporal.ISBN;
+      return isnb==id;
+    })
+    return book;
+  }
   
   return (
     <div className="w-full h-screen bg-secondary ">
@@ -128,11 +144,12 @@ const updateBooks = (valActual,catActual,actYear)=>{
             {
               booksDisplay.map(item =>{
                 return(
-                <BookCard
-                  key={item.ISBN}
-                  bookInfo={item}
-                  save={false}
-                />
+                  <BookCard
+                    key={item.ISBN}
+                    bookInfo={item}
+                    save={false}
+                    favorites={addFavorites}
+                  />
                 )
               })
             } 
@@ -146,11 +163,14 @@ const updateBooks = (valActual,catActual,actYear)=>{
         </div>
         <div className="w-4/5 h-60 flex items-center overflow-x-auto ">
         {
-              booksDisplay.map(item =>{
+              favorites.map(id =>{
+                console.log(id);
+                const item =getBook(id);
                 return(
                   <FavBookCard
-                  key={item.ISBN}
-                  book={item}
+                    key={item.ISBN}
+                    book={item}
+
                   />
                 )
               })
