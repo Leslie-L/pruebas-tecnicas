@@ -3,18 +3,37 @@ import BookCard from "./BookCard.jsx"
 import FavBookCard from "./FavBookCard.jsx"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons'
-import { useEffect, useState } from "react";
-
+import { useState, useEffect } from "react"
+import  useBookStore  from "./useStore.jsx"
 
 export default function App() {
-  
+  const { books, booksDisplay, favorites, cantidadDeLibros, cantidadDeFavs, fetch, addFavorites, deleteFavorites, isFavorite, getBook, updateDisplay } = useBookStore((state) => ({
+    books:  state.books, 
+    booksDisplay: state.booksDisplay,
+    favorites: state.favorites,
+    cantidadDeLibros: state.cantidadDeLibros,
+    cantidadDeFavs: state.cantidadDeFavs,
+    fetch: state.fetch,
+    addFavorites: state.addFavorites,
+    deleteFavorites: state.deleteFavorites,
+    isFavorite: state.isFavorite,
+    getBook: state.getBook,
+    updateDisplay: state.updateDisplay
+  }));
+  useEffect(() => {
+    fetch();
+  }, []);
   //const typesBooks = ['Category','Drama', 'Terror', 'Romance','Fanfic'];
-  const [books, setBooks] = useState([]);
+  /*const [books, setBooks] = useState([]);
+  const [favorites, setFavorites] = useState([]);
+  const [booksDisplay,setBooksDisplay]=useState([]);*/
+
+  
   const [searchTA, setSearchTA] = useState("");
-  const [booksDisplay,setBooksDisplay]=useState([]);
   const [bookDate,setBookDate] = useState("");
   const [bookCategory, setBookCategory] = useState(10000);
-  const [favorites, setFavorites] = useState([]);
+
+ /*
   useEffect(()=>  {
     const getBooks = async () =>{
       const response = await fetch('./books.json');
@@ -25,15 +44,22 @@ export default function App() {
     getBooks();
     
   },[]);
-  function onlyUnique(value, index, array) {
-    return array.indexOf(value) === index;
-  }
-  
- const categories =  books.map(book =>{
-    const temporal = book['book'];
-    return temporal.genre;
- }).filter(onlyUnique);
 
+  
+  
+*/
+if (!books || books.length === 0) {
+  return <div>Loading...</div>;
+}
+console.log(books)
+function onlyUnique(value, index, array) {
+  return array.indexOf(value) === index;
+}
+
+const categories =  books.map(book =>{
+  const temporal = book['book'];
+  return temporal.genre;
+}).filter(onlyUnique);
  
 const onChangeTA = (event)=>{
   setSearchTA((event.target.value).toLowerCase())
@@ -53,11 +79,8 @@ const onChangeCategory = (event) =>{
   //alert(categories[event.target.value])
 } 
 const onChangeDate = (event) =>{
-  
-    
     setBookDate(event.target.value);
     updateBooks(searchTA,bookCategory,event.target.value);
-  
 } 
 
 const updateBooks = (valActual,catActual,actYear)=>{
@@ -94,8 +117,11 @@ const updateBooks = (valActual,catActual,actYear)=>{
     return (title.includes(valActual) || nameAuthor.includes(valActual))
   })
   
-  setBooksDisplay(newBooks);
+  //setBooksDisplay(newBooks);
+  updateDisplay(newBooks);
 }
+
+/*
   const cantidadDeLibros =booksDisplay.length - favorites.length;
   const cantidadDeFavs = favorites.length;
   const addFavorites = (newFav)=>{
@@ -121,14 +147,14 @@ const updateBooks = (valActual,catActual,actYear)=>{
     })
     return book;
   }
-  
+  */
   return (
     <div className="w-full h-screen bg-secondary ">
       <Navbar/>
       <main className="flex font-font1">
         <section className="w-2/5 h-auto flex flex-col justify-center items-center">
           <h1 className="text-4xl font-semibold">Books</h1>
-          <h1 className="text-2xl font-semibold mb-4">Total of books: {cantidadDeLibros}</h1>
+          <h1 className="text-2xl font-semibold mb-4">Total of books: {cantidadDeLibros()}</h1>
           <p className="font-medium mb-6">Explore new worlds</p>
           <div className="flex">
             <FontAwesomeIcon  className='bg-white w-15 h-6 p-2 rounded-l-xl' icon={faMagnifyingGlass} />
@@ -168,7 +194,7 @@ const updateBooks = (valActual,catActual,actYear)=>{
       <section className="w-full h-48 flex items-center pr-12">
         <div className="w-1/5 flex justify-center">
           <p className="writing-mode-vertical text-md font-semibold rotate-[-180deg] font-font1">Lista de lectura</p>
-          <p className="writing-mode-vertical text-md rotate-[-180deg] font-font1">Cantidad de libros: {cantidadDeFavs}</p>
+          <p className="writing-mode-vertical text-md rotate-[-180deg] font-font1">Cantidad de libros: {cantidadDeFavs()}</p>
         </div>
         <div className="w-4/5 h-60 flex items-center overflow-x-auto ">
         {
