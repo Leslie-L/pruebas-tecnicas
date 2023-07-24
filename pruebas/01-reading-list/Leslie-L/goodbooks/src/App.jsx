@@ -106,10 +106,8 @@ const updateBooks = (valActual,catActual,actYear)=>{
   const deleteFavorites = (fav)=>{
     const listFavorites = [...favorites];
     const index = listFavorites.indexOf(fav);
-    console.log(index)
     listFavorites.splice(index,1);
     setFavorites(listFavorites);
-    console.log(listFavorites)
     
   }
   const isFavorite =(id)=>{
@@ -151,12 +149,12 @@ const updateBooks = (valActual,catActual,actYear)=>{
         <section className="w-3/5 h-96  flex items-center overflow-x-auto pr-12">
             {
               booksDisplay.map(item =>{
-                const isSaved = isFavorite(item.ISBN);
+                item['book']['save']= isFavorite(item.ISBN)? true: false;
                 return(
                   <BookCard
                     key={item.ISBN}
                     bookInfo={item}
-                    save={isSaved}
+                    save={isFavorite}
                     favorites={addFavorites}
                     delete={deleteFavorites}
                   />
