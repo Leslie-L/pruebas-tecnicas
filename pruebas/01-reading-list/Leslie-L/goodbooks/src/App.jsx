@@ -146,7 +146,7 @@ const updateBooks = (valActual,catActual,actYear)=>{
             <input type="number" className="w-16 p-2 m-1 rounded-xl" value={bookDate} onChange={onChangeDate} name="" id="" placeholder="year"/>
           </div>
         </section>
-        <section className="w-3/5 h-96  flex items-center overflow-x-auto pr-12">
+        <section className="w-3/5 h-96  flex items-center overflow-x-auto  mr-12">
             {
               booksDisplay.map(item =>{
                 item['book']['save']= isFavorite(item.ISBN)? true: false;
