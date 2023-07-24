@@ -54,16 +54,14 @@ const onChangeCategory = (event) =>{
 } 
 const onChangeDate = (event) =>{
   
-    console.log(event.target.value)
+    
     setBookDate(event.target.value);
     updateBooks(searchTA,bookCategory,event.target.value);
   
 } 
 
 const updateBooks = (valActual,catActual,actYear)=>{
-  console.log(valActual)
-  console.log(catActual)
-  console.log(categories[catActual])
+  
   const newBooks = books.filter(book=>{
     const temporal = book['book'];
     const title = temporal['title'].toLowerCase();
@@ -98,14 +96,24 @@ const updateBooks = (valActual,catActual,actYear)=>{
   
   setBooksDisplay(newBooks);
 }
-  const cantidadDeLibros =booksDisplay.length;
-
+  const cantidadDeLibros =booksDisplay.length - favorites.length;
+  const cantidadDeFavs = favorites.length;
   const addFavorites = (newFav)=>{
-    
+      const listFavorites = [...favorites];
+      listFavorites.push(newFav)
+      setFavorites(listFavorites);
+  }
+  const deleteFavorites = (fav)=>{
     const listFavorites = [...favorites];
-    listFavorites.push(newFav)
+    const index = listFavorites.indexOf(fav);
+    console.log(index)
+    listFavorites.splice(index,1);
     setFavorites(listFavorites);
-    console.log("call add",newFav);
+    console.log(listFavorites)
+    
+  }
+  const isFavorite =(id)=>{
+    return favorites.includes(id);
   }
   const getBook=(id)=>{
     const book = books.find(item=>{
@@ -143,12 +151,14 @@ const updateBooks = (valActual,catActual,actYear)=>{
         <section className="w-3/5 h-96  flex items-center overflow-x-auto pr-12">
             {
               booksDisplay.map(item =>{
+                const isSaved = isFavorite(item.ISBN);
                 return(
                   <BookCard
                     key={item.ISBN}
                     bookInfo={item}
-                    save={false}
+                    save={isSaved}
                     favorites={addFavorites}
+                    delete={deleteFavorites}
                   />
                 )
               })
@@ -160,17 +170,18 @@ const updateBooks = (valActual,catActual,actYear)=>{
       <section className="w-full h-48 flex items-center pr-12">
         <div className="w-1/5 flex justify-center">
           <p className="writing-mode-vertical text-md font-semibold rotate-[-180deg] font-font1">Lista de lectura</p>
+          <p className="writing-mode-vertical text-md rotate-[-180deg] font-font1">Cantidad de libros: {cantidadDeFavs}</p>
         </div>
         <div className="w-4/5 h-60 flex items-center overflow-x-auto ">
         {
               favorites.map(id =>{
-                console.log(id);
+              
                 const item =getBook(id);
                 return(
                   <FavBookCard
                     key={item.ISBN}
                     book={item}
-
+                    delete = {deleteFavorites}
                   />
                 )
               })
