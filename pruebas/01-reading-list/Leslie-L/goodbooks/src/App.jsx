@@ -7,7 +7,7 @@ import { useState, useEffect } from "react"
 import  useBookStore  from "./useStore.jsx"
 
 export default function App() {
-  const { books, booksDisplay, favorites, cantidadDeLibros, cantidadDeFavs, fetch, addFavorites, deleteFavorites, isFavorite, getBook, updateDisplay } = useBookStore((state) => ({
+  const { books, booksDisplay, favorites, cantidadDeLibros, cantidadDeFavs, fetch, addFavorites, deleteFavorites, isFavorite, getBook, updateDisplay,updateFavorites } = useBookStore((state) => ({
     books:  state.books, 
     booksDisplay: state.booksDisplay,
     favorites: state.favorites,
@@ -18,40 +18,26 @@ export default function App() {
     deleteFavorites: state.deleteFavorites,
     isFavorite: state.isFavorite,
     getBook: state.getBook,
-    updateDisplay: state.updateDisplay
+    updateDisplay: state.updateDisplay,
+    updateFavorites: state.updateFavorites
   }));
+  
   useEffect(() => {
     fetch();
+    window.addEventListener('storage',(e)=>{
+      console.log(e.key)
+      console.log(cantidadDeLibros);
+      updateFavorites()
+    })
   }, []);
-  //const typesBooks = ['Category','Drama', 'Terror', 'Romance','Fanfic'];
-  /*const [books, setBooks] = useState([]);
-  const [favorites, setFavorites] = useState([]);
-  const [booksDisplay,setBooksDisplay]=useState([]);*/
+ 
 
   
-  const [searchTA, setSearchTA] = useState("");
-  const [bookDate,setBookDate] = useState("");
-  const [bookCategory, setBookCategory] = useState(10000);
+const [searchTA, setSearchTA] = useState("");
+const [bookDate,setBookDate] = useState("");
+const [bookCategory, setBookCategory] = useState(10000);
 
- /*
-  useEffect(()=>  {
-    const getBooks = async () =>{
-      const response = await fetch('./books.json');
-      const data = await response.json();
-      setBooks(data['library']);
-      setBooksDisplay(data['library']);
-    }
-    getBooks();
-    
-  },[]);
 
-  
-  
-*/
-if (!books || books.length === 0) {
-  return <div>Loading...</div>;
-}
-console.log(books)
 function onlyUnique(value, index, array) {
   return array.indexOf(value) === index;
 }
@@ -67,7 +53,7 @@ const onChangeTA = (event)=>{
   
 }
 const onChangeCategory = (event) =>{
-  //alert("cambio"+event.target.value);
+ 
   
   if(event.target.value=="category"){
     setBookCategory(10000);
@@ -76,7 +62,7 @@ const onChangeCategory = (event) =>{
   }
   
   updateBooks(searchTA,event.target.value,bookDate);
-  //alert(categories[event.target.value])
+ 
 } 
 const onChangeDate = (event) =>{
     setBookDate(event.target.value);
@@ -112,42 +98,12 @@ const updateBooks = (valActual,catActual,actYear)=>{
     if (valActual.length>=1 &&catActual<categories.length) {
       return catego.includes(categories[catActual]) && (title.includes(valActual) || nameAuthor.includes(valActual))
     }
-    
-    
     return (title.includes(valActual) || nameAuthor.includes(valActual))
   })
   
-  //setBooksDisplay(newBooks);
   updateDisplay(newBooks);
 }
 
-/*
-  const cantidadDeLibros =booksDisplay.length - favorites.length;
-  const cantidadDeFavs = favorites.length;
-  const addFavorites = (newFav)=>{
-      const listFavorites = [...favorites];
-      listFavorites.push(newFav)
-      setFavorites(listFavorites);
-  }
-  const deleteFavorites = (fav)=>{
-    const listFavorites = [...favorites];
-    const index = listFavorites.indexOf(fav);
-    listFavorites.splice(index,1);
-    setFavorites(listFavorites);
-    
-  }
-  const isFavorite =(id)=>{
-    return favorites.includes(id);
-  }
-  const getBook=(id)=>{
-    const book = books.find(item=>{
-      const temporal = item['book'];
-      const isnb = temporal.ISBN;
-      return isnb==id;
-    })
-    return book;
-  }
-  */
   return (
     <div className="w-full h-screen bg-secondary ">
       <Navbar/>
@@ -199,7 +155,6 @@ const updateBooks = (valActual,catActual,actYear)=>{
         <div className="w-4/5 h-60 flex items-center overflow-x-auto ">
         {
               favorites.map(id =>{
-              
                 const item =getBook(id);
                 return(
                   <FavBookCard
@@ -210,8 +165,6 @@ const updateBooks = (valActual,catActual,actYear)=>{
                 )
               })
           }
-  
-        
         </div>
       </section>
     </div>
