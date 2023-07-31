@@ -7,7 +7,7 @@ import { useState, useEffect } from "react"
 import  useBookStore  from "./useStore.jsx"
 
 export default function App() {
-  const { books, booksDisplay, favorites, cantidadDeLibros, cantidadDeFavs, fetch, addFavorites, deleteFavorites, isFavorite, getBook, updateDisplay,updateFavorites } = useBookStore((state) => ({
+  const { books, booksDisplay, favorites, cantidadDeLibros, cantidadDeFavs, fetch, addFavorites, deleteFavorites, isFavorite, getBook, updateDisplay,updateFavorites,cantidadDeLibrosDesplegados } = useBookStore((state) => ({
     books:  state.books, 
     booksDisplay: state.booksDisplay,
     favorites: state.favorites,
@@ -19,7 +19,8 @@ export default function App() {
     isFavorite: state.isFavorite,
     getBook: state.getBook,
     updateDisplay: state.updateDisplay,
-    updateFavorites: state.updateFavorites
+    updateFavorites: state.updateFavorites,
+    cantidadDeLibrosDesplegados: state.cantidadDeLibrosDesplegados
   }));
   
   useEffect(() => {
@@ -111,7 +112,7 @@ const updateBooks = (valActual,catActual,actYear)=>{
         <section className="w-2/5 h-auto flex flex-col justify-center items-center">
           <h1 className="text-4xl font-semibold">Books</h1>
           <h1 className="text-2xl font-semibold mb-4">Total of books: {cantidadDeLibros()}</h1>
-          <p className="font-medium mb-6">Explore new worlds</p>
+          <p className="font-medium mb-6">Books displeyed: {cantidadDeLibrosDesplegados()}</p>
           <div className="flex">
             <FontAwesomeIcon  className='bg-white w-15 h-6 p-2 rounded-l-xl' icon={faMagnifyingGlass} />
             <input type="search" placeholder="Titles or author" value={searchTA} onChange={onChangeTA} className="rounded-r-xl"/>
