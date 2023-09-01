@@ -108,8 +108,9 @@ const updateBooks = (valActual,catActual,actYear)=>{
   return (
     <div className="w-full h-screen bg-secondary ">
       <Navbar/>
-      <main className="flex font-font1">
-        <section className="w-2/5 h-auto flex flex-col justify-center items-center">
+      <main className="flex font-font1 flex-col md:flex-row bg-secondary">
+        <section className=" w-full md:w-2/5 h-auto flex flex-col justify-center items-center">
+          
           <h1 className="text-4xl font-semibold">Books</h1>
           <h1 className="text-2xl font-semibold mb-4">Total of books: {cantidadDeLibros()}</h1>
           <p className="font-medium mb-6">Books displeyed: {cantidadDeLibrosDesplegados()}</p>
@@ -129,7 +130,7 @@ const updateBooks = (valActual,catActual,actYear)=>{
             <input type="number" className="w-16 p-2 m-1 rounded-xl" value={bookDate} onChange={onChangeDate} name="" id="" placeholder="year"/>
           </div>
         </section>
-        <section className="w-3/5 h-96  flex items-center overflow-x-auto  mr-12">
+        <section className="w-full md:w-3/5 h-72 md:h-96 mb-4 mt-4 flex items-center overflow-x-auto  mr-12 px-4 bg-secondary">
             {
               booksDisplay.map(item =>{
                 item['book']['save']= isFavorite(item.ISBN)? true: false;
@@ -147,13 +148,13 @@ const updateBooks = (valActual,catActual,actYear)=>{
         </section>
         
       </main>
-      <div className="w-full h-2 z-10 mt-8 shadow-2xl bg-primary"></div>
-      <section className="w-full h-48 flex items-center pr-12">
-        <div className="w-1/5 flex justify-center">
-          <p className="writing-mode-vertical text-md font-semibold rotate-[-180deg] font-font1">Lista de lectura</p>
-          <p className="writing-mode-vertical text-md rotate-[-180deg] font-font1">Cantidad de libros: {cantidadDeFavs()}</p>
+      <div className="w-full h-2 z-10 md:mt-8 shadow-2xl bg-primary"></div>
+      <section className="w-full  md:h-44 flex flex-col items-center md:pr-12 bg-secondary md:flex-row md:pr-0">
+        <div className="w-full md:w-1/5  md:h-auto flex flex-col justify-center items-center  mt-2">
+          <p className=" text-md font-semibold font-font1">Lista de lectura</p>
+          <p className=" text-md  font-font1">Cantidad de libros: {cantidadDeFavs()}</p>
         </div>
-        <div className="w-4/5 h-60 flex items-center overflow-x-auto ">
+        <div className="w-full md:w-4/5 h-44 flex items-center overflow-x-auto px-4 m-2">
         {
               favorites.map(id =>{
                 const item =getBook(id);

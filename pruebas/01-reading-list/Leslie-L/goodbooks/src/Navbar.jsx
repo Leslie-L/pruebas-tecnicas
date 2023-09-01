@@ -10,11 +10,11 @@ function Navbar() {
     return (
     <nav className="w-full h-20 px-6 flex justify-between items-center font-font2">
         <p className='text-2xl font-semibold text-brown-700'>GoodBooks</p>
-        <div>
+        <div className='hidden md:flex'>
           <a href="#home" className="mr-6 p-2 bg-primary rounded-xl"> <FontAwesomeIcon  className='mr-2' icon={faBook} /> Books</a>
           <a href="#"><FontAwesomeIcon  className='mr-2' icon={faHeadphones} /> AudiBooks</a>
         </div>
-        <div>
+        <div className='hidden md:flex'>
           <a href="#favorite" className='mr-4'><FontAwesomeIcon icon={faBookmark} /></a>
           <FontAwesomeIcon className='mr-4' icon={faSuitcase} />
           <FontAwesomeIcon className='mr-4' icon={faUser} />
