@@ -1,19 +1,26 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBookmark} from '@fortawesome/free-solid-svg-icons'
-import { useState } from 'react'
+import  useBookStore  from "./useStore.jsx"
 
 
 function BookCard(props) {
-    
+    const {setActualBook,openModal} = useBookStore((state) => ({
+        setActualBook:state.setActualBook,
+        openModal:  state.openModal,   
+    }))
     const cover = props['bookInfo']['book'].cover
     const addFav = ()=>{
         props.favorites(props['bookInfo']['book'].ISBN)
     }
     const deleteFav =()=>{
         props.delete(props['bookInfo']['book'].ISBN) 
+    }
+    function handleModal() {
+        setActualBook(props['bookInfo']['book']),
+        openModal()
     }     
     
-    return(<article className="flex-shrink-0 w-52  mr-6 relative shadow-xl">
+    return(<article className="flex-shrink-0 w-52  mr-6 relative shadow-xl md:mr-0" onClick={handleModal}>
             {
               props.save(props['bookInfo']['book'].ISBN)?  <img src={cover} className="rounded-sm  brightness-50 h-72" alt="" /> : <img src={cover} className="rounded-sm shadow-sm h-72" alt="" />
             }

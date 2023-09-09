@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons'
 import { useState, useEffect } from "react"
 import  useBookStore  from "./useStore.jsx"
+import ShowBookCard from "./ShowBookCard.jsx"
 
 export default function App() {
   const { books, booksDisplay, favorites, cantidadDeLibros, cantidadDeFavs, fetch, addFavorites, deleteFavorites, isFavorite, getBook, updateDisplay,updateFavorites,cantidadDeLibrosDesplegados } = useBookStore((state) => ({
@@ -160,7 +161,7 @@ const updateBooks = (valActual,catActual,actYear)=>{
                 const item =getBook(id);
                 return(
                   <FavBookCard
-                    key={item.ISBN}
+                    key={`${id}-favBooks`}
                     book={item}
                     delete = {deleteFavorites}
                   />
@@ -169,6 +170,7 @@ const updateBooks = (valActual,catActual,actYear)=>{
           }
         </div>
       </section>
+      <ShowBookCard/>
     </div>
   )
 }
