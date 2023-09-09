@@ -120,7 +120,7 @@ const updateBooks = (valActual,catActual,actYear)=>{
             <input type="search" placeholder="Titles or author" value={searchTA} onChange={onChangeTA} className="rounded-r-xl"/>
           </div>
           <div className="flex">
-            <select id="types" className="w-40 p-2 m-1 rounded-xl" value={bookCategory} onChange={onChangeCategory} name="types">
+            <select id="types" className="w-40 h-auto p-2 m-1 rounded-xl" value={bookCategory} onChange={onChangeCategory} name="types">
               <option  value={10000} default>Category</option>
                 {
                   categories.map((category,index)=>
