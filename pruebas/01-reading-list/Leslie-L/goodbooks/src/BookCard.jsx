@@ -9,13 +9,16 @@ function BookCard(props) {
         openModal:  state.openModal,   
     }))
     const cover = props['bookInfo']['book'].cover
-    const addFav = ()=>{
+    const addFav = (event)=>{
+        event.stopPropagation();
         props.favorites(props['bookInfo']['book'].ISBN)
     }
-    const deleteFav =()=>{
+    const deleteFav =(event)=>{
+        event.stopPropagation();
         props.delete(props['bookInfo']['book'].ISBN) 
     }
     function handleModal() {
+        
         setActualBook(props['bookInfo']['book']),
         openModal()
     }     
@@ -25,7 +28,7 @@ function BookCard(props) {
               props.save(props['bookInfo']['book'].ISBN)?  <img src={cover} className="rounded-sm  brightness-50 h-72" alt="" /> : <img src={cover} className="rounded-sm shadow-sm h-72" alt="" />
             }
             {
-             props.save(props['bookInfo']['book'].ISBN)? <button className=" h-10 w-10 rounded-full absolute top-2 left-2 shadow-2xl bg-primary text-white" onClick={()=>deleteFav()} ><FontAwesomeIcon icon={faBookmark}  /></button>:<button className="bg-gray-200 h-10 w-10 rounded-full absolute top-2 left-2 shadow-2xl hover:bg-primary hover:text-white" onClick={()=>addFav()} ><FontAwesomeIcon icon={faBookmark}  /></button>
+             props.save(props['bookInfo']['book'].ISBN)? <button className=" h-10 w-10 rounded-full absolute top-2 left-2 shadow-2xl bg-primary text-white" onClick={(e)=>deleteFav(e)} ><FontAwesomeIcon icon={faBookmark}  /></button>:<button className="bg-gray-200 h-10 w-10 rounded-full absolute top-2 left-2 shadow-2xl hover:bg-primary hover:text-white" onClick={(e)=>addFav(e)} ><FontAwesomeIcon icon={faBookmark}  /></button>
             }
             
         </article>)
